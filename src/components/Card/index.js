@@ -1,5 +1,5 @@
 import styles from './Card.module.scss'
-console.log(styles)
+
 
 const Card = (props) => {
   const onClickButton = () => {

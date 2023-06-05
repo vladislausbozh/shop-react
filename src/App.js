@@ -27,7 +27,11 @@ function App() {
 
         <div className="cards">
           {arr.map((obj)=>(
-            <Card title={obj.title} price ={obj.price}/>
+            <Card 
+            key={obj.id} 
+            title={obj.title} 
+            price ={obj.price}
+            />
           ))} 
         </div>
 
