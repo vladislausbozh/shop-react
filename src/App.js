@@ -1,14 +1,19 @@
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
+import Card from "./components/Card";
 
 
 function App() {
+  const arr = [
+    { id:1, title:'Фруктовый чай - Бора Бора',price:'150руб'},
+    { id:2, title:'Черный чай - Лисма',price:'110руб'},
+    { id:3, title:'Зеленый чай - Кабусэтя',price:'150руб'},
+    { id:4, title:'Белый чай - Байхао Иньчжэнь',price:'150руб'},
+  ]
+
   return (
     <div className="wrapper">
-
-      <div className="overlay">
-        <Drawer />
-      </div>
+      <Drawer />
       <Header />
       
       <div className="content">
@@ -21,94 +26,9 @@ function App() {
         </div>
 
         <div className="cards">
-          <div className="card">
-            <div className="cardImg">
-              <img width={120} src="/img/icon-tea.png" alt="Tea" />
-            </div>
-            <p>Фруктовый чай - Бора Бора</p>
-            <div className="cardButton">
-              <b>150 руб</b>
-              <button className="button">+</button>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="cardImg">
-              <img width={120} src="/img/icon-tea.png" alt="Tea" />
-            </div>
-            <p>Фруктовый чай - Бора Бора</p>
-            <div className="cardButton">
-              <b>150 руб</b>
-              <button className="button">+</button>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="cardImg">
-              <img width={120} src="/img/icon-tea.png" alt="Tea" />
-            </div>
-            <p>Фруктовый чай - Бора Бора</p>
-            <div className="cardButton">
-              <b>150 руб</b>
-              <button className="button">+</button>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="cardImg">
-              <img width={120} src="/img/icon-tea.png" alt="Tea" />
-            </div>
-            <p>Фруктовый чай - Бора Бора</p>
-            <div className="cardButton">
-              <b>150 руб</b>
-              <button className="button">+</button>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="cardImg">
-              <img width={120} src="/img/icon-tea.png" alt="Tea" />
-            </div>
-            <p>Фруктовый чай - Бора Бора</p>
-            <div className="cardButton">
-              <b>150 руб</b>
-              <button className="button">+</button>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="cardImg">
-              <img width={120} src="/img/icon-tea.png" alt="Tea" />
-            </div>
-            <p>Фруктовый чай - Бора Бора</p>
-            <div className="cardButton">
-              <b>150 руб</b>
-              <button className="button">+</button>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="cardImg">
-              <img width={120} src="/img/icon-tea.png" alt="Tea" />
-            </div>
-            <p>Фруктовый чай - Бора Бора</p>
-            <div className="cardButton">
-              <b>150 руб</b>
-              <button className="button">+</button>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="cardImg">
-              <img width={120} src="/img/icon-tea.png" alt="Tea" />
-            </div>
-            <p>Фруктовый чай - Бора Бора</p>
-            <div className="cardButton">
-              <b>150 руб</b>
-              <button className="button">+</button>
-            </div>
-          </div>
-          
+          {arr.map((obj)=>(
+            <Card title={obj.title} price ={obj.price}/>
+          ))} 
         </div>
 
       </div>

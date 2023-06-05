@@ -1,6 +1,7 @@
 const Drawer = () => {
    return(
-      <div className="drawer">
+      <div  className="overlay"  >
+        <div className="drawer">
           <h3>Корзина</h3>
           <div className="items">
           <div className="cartItem">
@@ -43,6 +44,7 @@ const Drawer = () => {
             <button>Заказать</button>
           </div>
         </div>
+      </div>
    )
 }
 
