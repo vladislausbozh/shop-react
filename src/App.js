@@ -31,6 +31,8 @@ function App() {
             key={obj.id} 
             title={obj.title} 
             price ={obj.price}
+            
+            onClickPlus = {()=> console.log('нажали плюс')}
             />
           ))} 
         </div>

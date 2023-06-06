@@ -1,9 +1,14 @@
+import { useState } from 'react'
 import styles from './Card.module.scss'
 
 
 const Card = (props) => {
-  const onClickButton = () => {
-   alert(props.title)
+
+   const [isAdded,setIsAdded] = useState(false)
+
+   const onClickPlus = () => {
+   setIsAdded(!isAdded)
+   
   }
    return (
       <div className={styles.card}>
@@ -13,7 +18,10 @@ const Card = (props) => {
          <p>{props.title}</p>
          <div className={styles.cardButton}>
             <b>{props.price}</b>
-            <button className="button" onClick={onClickButton}>+</button>
+            <img 
+            onClick={onClickPlus}
+            src={isAdded ? '/img/btn-close.svg' : '/img/add-plus.svg'} 
+            />
          </div>
       </div>
    )
