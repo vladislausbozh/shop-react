@@ -1,20 +1,28 @@
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
 import Card from "./components/Card";
+import { useEffect, useState } from "react";
 
 
 function App() {
-  const arr = [
-    { id:1, title:'Фруктовый чай - Бора Бора',price:'150руб'},
-    { id:2, title:'Черный чай - Лисма',price:'110руб'},
-    { id:3, title:'Зеленый чай - Кабусэтя',price:'150руб'},
-    { id:4, title:'Белый чай - Байхао Иньчжэнь',price:'150руб'},
-  ]
+  const [items, setItems] = useState([])
+  const [cartOpened, setCartOpened] = useState(false)
+
+  useEffect(()=> {
+    fetch('https://64849cf8ee799e321626dcfe.mockapi.io/items')
+      .then((res) => {
+        return res.json()
+    
+      .then((json) => {
+        setItems(json)
+      })
+    })
+  },[])
 
   return (
     <div className="wrapper">
-      <Drawer />
-      <Header />
+      {cartOpened && <Drawer onClose = {()=>setCartOpened(false)} /> }
+      <Header onClickCart = {()=>setCartOpened(true)} />
       
       <div className="content">
         <div className="title">
@@ -26,7 +34,7 @@ function App() {
         </div>
 
         <div className="cards">
-          {arr.map((obj)=>(
+          {items.map((obj)=>(
             <Card 
             key={obj.id} 
             title={obj.title} 

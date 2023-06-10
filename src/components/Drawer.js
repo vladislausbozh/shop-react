@@ -1,8 +1,11 @@
-const Drawer = () => {
+const Drawer = (props) => {
    return(
       <div  className="overlay"  >
         <div className="drawer">
-          <h3>Корзина</h3>
+          <div className="drawer-top">
+            <h3>Корзина</h3>
+            <img onClick={props.onClose} width={35} src="/img/btn-close.svg"/>
+          </div>
           <div className="items">
           <div className="cartItem">
             <img width={70} height={70} src="./img/icon-tea.png" alt="Tea" />

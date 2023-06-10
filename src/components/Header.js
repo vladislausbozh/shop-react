@@ -1,6 +1,6 @@
 
 
-const Header = () => {
+const Header = (props) => {
    return(
       <header>
         <div className="headerLeft">
@@ -10,8 +10,8 @@ const Header = () => {
             <p>Чай, оптом и в розницу</p>
           </div>
         </div>
-        <div className="headerRight">
-          <img src="/img/cart.svg" />
+        <div  className="headerRight" onClick={props.onClickCart}>
+          <img  src="/img/cart.svg" />
           <span>Корзина</span>
         </div>
       </header>
