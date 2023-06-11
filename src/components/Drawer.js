@@ -1,29 +1,22 @@
-const Drawer = (props) => {
+const Drawer = ({onClose,items = []}) => {
    return(
       <div  className="overlay"  >
         <div className="drawer">
           <div className="drawer-top">
             <h3>Корзина</h3>
-            <img onClick={props.onClose} width={35} src="/img/btn-close.svg"/>
+            <img onClick={onClose} width={35} src="/img/btn-close.svg"/>
           </div>
           <div className="items">
-          <div className="cartItem">
-            <img width={70} height={70} src="./img/icon-tea.png" alt="Tea" />
-            <div>
-              <p>Фруктовый чай - Бора Бора</p>
-              <b>150 руб</b>
+            {items.map((obj)=>(
+              <div className="cartItem">
+              <img width={70} height={70} src="./img/icon-tea.png" alt="Tea" />
+              <div>
+                <p>{obj.title}</p>
+                <b>{obj.price}</b>
+              </div>
+              <img className="removeBtn"  src="/img/btn-close.svg" alt="Remove" />
             </div>
-            <img className="removeBtn"  src="/img/btn-close.svg" alt="Remove" />
-          </div>
-
-          <div className="cartItem">
-            <img width={70} height={70} src="./img/icon-tea.png" alt="Tea" />
-            <div>
-              <p>Фруктовый чай - Бора Бора</p>
-              <b>150 руб</b>
-            </div>
-            <img className="removeBtn"  src="/img/btn-close.svg" alt="Remove" />
-          </div>
+            ))}
           </div>
           <div className="cartTotal">
             <ul>
