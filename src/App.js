@@ -2,13 +2,13 @@ import Header from "./components/Header";
 import Drawer from "./components/Drawer";
 import Card from "./components/Card";
 import { useEffect, useState } from "react";
-import React from "react";
+import axios from "axios";
 
 
 function App() {
-  const [items, setItems] = React.useState([])
-  const [cartItems, setCartItems] = React.useState([])
-  const [serchValue, setSerchValue] = React.useState('')
+  const [items, setItems] = useState([])
+  const [cartItems, setCartItems] = useState([])
+  const [serchValue, setSerchValue] = useState('')
   const [cartOpened, setCartOpened] = useState(false)
 
   // React.useEffect(()=> {
@@ -22,16 +22,17 @@ function App() {
   // },[])
 
   useEffect(() => {
-    async function getCard(){
-      const res = await fetch('https://64849cf8ee799e321626dcfe.mockapi.io/items')
-      const data = await res.json().then(items => {
-        setItems(items)
-      })
-    }
-    getCard()
+    axios.get('https://64849cf8ee799e321626dcfe.mockapi.io/items').then(res => {
+      setItems(res.data)
+    })
+    axios.get('https://64849cf8ee799e321626dcfe.mockapi.io/cart').then(res => {
+      setCartItems(res.data)
+    })
+    
   },[])
 
   const onAddToCard = (obj) => {
+    axios.post('https://64849cf8ee799e321626dcfe.mockapi.io/cart',obj)
     setCartItems([...cartItems,obj])
   }
 
