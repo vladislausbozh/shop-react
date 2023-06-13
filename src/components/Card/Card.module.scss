@@ -1,7 +1,6 @@
 .card {
    padding: 30px;
    border: 1px solid rgb(144, 140, 140);
-   border-radius: 40px;
    width: 210px;
    margin: 20px 30px 0px 0px;
    .cardImg {
@@ -14,6 +13,7 @@
    .cardButton {
       display: flex;
       justify-content: space-between;
+      
    }
    .button {
       border-radius: 10px;

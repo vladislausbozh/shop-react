@@ -3,6 +3,7 @@ import Drawer from "./components/Drawer";
 import Card from "./components/Card";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { findAllInRenderedTree } from "react-dom/test-utils";
 
 
 function App() {
@@ -11,35 +12,36 @@ function App() {
   const [serchValue, setSerchValue] = useState('')
   const [cartOpened, setCartOpened] = useState(false)
 
-  // React.useEffect(()=> {
-  //   fetch('https://64849cf8ee799e321626dcfe.mockapi.io/items')
-  //     .then(res=> {
-  //       return res.json()
-  //     })
-  //     .then(json=>{
-  //       setItems(json)
-  //     })
-  // },[])
 
   useEffect(() => {
-    axios.get('https://64849cf8ee799e321626dcfe.mockapi.io/items').then(res => {
-      setItems(res.data)
-    })
-    axios.get('https://64849cf8ee799e321626dcfe.mockapi.io/cart').then(res => {
-      setCartItems(res.data)
-    })
-    
+    async function fetchData() {
+      const cartResponse = await axios.get('https://64849cf8ee799e321626dcfe.mockapi.io/cart')
+      const itemsResponse = await axios.get('https://64849cf8ee799e321626dcfe.mockapi.io/items')
+
+      setCartItems(cartResponse.data)
+      setItems(itemsResponse.data)
+      
+    }
+    fetchData()
   },[])
 
   const onAddToCard = (obj) => {
-    axios.post('https://64849cf8ee799e321626dcfe.mockapi.io/cart')
-    setCartItems([...cartItems,obj])
+    
+    if(cartItems.find(item=>item.id === obj.id)){
+      axios.delete(`https://64849cf8ee799e321626dcfe.mockapi.io/cart/${obj.id}`)
+      setCartItems(prev=> prev.filter(item=>item.id!==obj.id))
+
+      
+    } else {
+      axios.post('https://64849cf8ee799e321626dcfe.mockapi.io/cart',obj)
+      setCartItems([...cartItems, obj])
+    }
+    
   }
 
   const onRemoveItems = (id) => {
-    
     axios.delete(`https://64849cf8ee799e321626dcfe.mockapi.io/cart/${id}`)
-    setCartItems((prev) => prev.filter((item)=>item.id !== id))
+    setCartItems((prev) => prev.filter((item) => item.id !== id))
   }
 
   const serchInput = (event) => {
@@ -49,8 +51,15 @@ function App() {
 
   return (
     <div className="wrapper">
-      {cartOpened && <Drawer items={cartItems} onClose = {()=>setCartOpened(false)} onRemove={onRemoveItems} /> }
-      <Header onClickCart = {()=>setCartOpened(true)} />
+      {cartOpened && <Drawer 
+        items={cartItems} 
+        onClose = {()=>setCartOpened(false)}
+        onRemove={onRemoveItems} 
+      /> }
+
+      <Header 
+        onClickCart = {()=>setCartOpened(true)} 
+      />
       
       <div className="content">
         <div className="title">
@@ -62,12 +71,14 @@ function App() {
         </div>
 
         <div className="cards">
-          {items.filter(item => item.title.toLowerCase().includes(serchValue.toLowerCase())).map((obj)=>(
+          {items.
+          filter((item) => item.title.toLowerCase().includes(serchValue.toLowerCase()))
+          .map((item)=>(
             <Card 
-            key={obj.id} 
-            title={obj.title} 
-            price ={obj.price}
-            onPlus = {(obj)=> onAddToCard(obj)}
+              key={item.id} 
+              added={cartItems.some((obj) => obj.id===item.id)}
+              onPlus = {(obj)=> onAddToCard(obj)}
+              {...item}
             />
           ))} 
         </div>

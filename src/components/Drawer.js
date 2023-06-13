@@ -1,4 +1,4 @@
-const Drawer = ({onClose,items,onRemove = []}) => {
+const Drawer = ({onClose,onRemove,items = []}) => {
    return(
       <div  className="overlay"  >
         <div className="drawer">
@@ -8,13 +8,25 @@ const Drawer = ({onClose,items,onRemove = []}) => {
           </div>
           <div className="items">
             {items.map((obj)=>(
-              <div className="cartItem">
-              <img width={70} height={70} src="./img/icon-tea.png" alt="Tea" />
-              <div>
-                <p>{obj.title}</p>
-                <b>{obj.price}</b>
-              </div>
-              <img onClick={()=>onRemove(obj.id)} className="removeBtn"  src="/img/btn-close.svg" alt="Remove" />
+              <div key={obj.id} className="cartItem">
+                <div className="cartInfo">
+                  <img 
+                    width={70} 
+                    height={70} 
+                    src="./img/icon-tea.png" 
+                    alt="Tea" 
+                  />
+                  <div>
+                    <p>{obj.title}</p>
+                    <b>{obj.price}</b>
+                  </div>
+                </div>
+                <img 
+                  onClick={() => onRemove(obj.id)} 
+                  className="removeBtn"  
+                  src="/img/btn-close.svg" 
+                  alt="Remove" 
+                />
             </div>
             ))}
           </div>
