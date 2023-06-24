@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { Route, Routes } from 'react-router-dom';
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
-import Card from "./components/Card";
 import axios from "axios";
 import Home from "./pages/Home";
-
+import AppContext from "./context";
 
 function App() {
 
@@ -21,16 +20,17 @@ function App() {
       const itemsResponse = await axios.get('https://64849cf8ee799e321626dcfe.mockapi.io/items')
 
       setIsLoading(false)
-
       setCartItems(cartResponse.data)
       setItems(itemsResponse.data)
+      
+      
     }
     fetchData()
   }, [])
 
   const onAddToCart = (obj) => {
     try {
-      if (cartItems.some(item => item.id === obj.id)) {
+      if (cartItems.find(item => item.id === obj.id)) {
         axios.delete(`https://64849cf8ee799e321626dcfe.mockapi.io/cart/${obj.id}`)
         setCartItems(prev => prev.filter(item => item.id !== obj.id))
 
@@ -52,39 +52,45 @@ function App() {
     setSearchValue(event.target.value)
   }
 
+  const isItemAdded = (id) => {
+    return cartItems.some((obj) =>obj.id ===id);
+  };
 
 
   return (
-    <div className="wrapper">
-      {cartOpened && <Drawer
-        items={cartItems}
-        onRemove={onRemoveCart}
-        onClose={() => setCartOpened(false)}
-      />}
-      <Header
-        onClickCart={() => setCartOpened(true)}
-      />
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Home
-              items={items}
-              cartItems={cartItems}
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
-              onSearchInput={onSearchInput}
-              onAddToCart={onAddToCart}
-              isLoading={isLoading}
-            />
-          }
+    <AppContext.Provider value={{items,cartItems,isItemAdded}}>
+      <div className="wrapper">
+        {cartOpened && <Drawer
+          items={cartItems}
+          onRemove={onRemoveCart}
+          onClose={() => setCartOpened(false)}
+        />}
+        <Header
+          onClickCart={() => setCartOpened(true)}
         />
-      </Routes>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home
+                items={items}
+                cartItems={cartItems}
+                searchValue={searchValue}
+                setSearchValue={setSearchValue}
+                onSearchInput={onSearchInput}
+                onAddToCart={onAddToCart}
+                isLoading={isLoading}
+              />
+            }
+          />
+        </Routes>
 
-    </div>
+      </div>
+    </AppContext.Provider>
   );
 }
 
 
 
 export default App;
+// 6 . /2.22MIN

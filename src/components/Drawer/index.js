@@ -8,8 +8,9 @@ const Drawer = ({ onClose, onRemove, items = [] }) => {
           <h3>Корзина</h3>
           <img width={35} src="/img/btn-close.svg" alt='close' onClick={onClose} />
         </div>
+
         {items.length > 0 ?
-          <div>
+          <div className={styles.row}>
             <div className={styles.items}>
               {items.map((obj) => (
                 <div key={obj.id} className={styles.cartItem}>

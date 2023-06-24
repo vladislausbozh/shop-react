@@ -1,3 +1,4 @@
+import React from "react";
 import Card from "../components/Card";
 
 const Home = ({
@@ -5,9 +6,9 @@ const Home = ({
   isLoading,
   cartItems,
   searchValue,
-  setSearchValue,
   onSearchInput,
   onAddToCart, }) => {
+    
 
   const renderItems = () => {
     const filtredItems = items.filter((item) =>

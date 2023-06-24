@@ -1,22 +1,24 @@
+import React from 'react';
 import ContentLoader from 'react-content-loader'
-import { useState } from 'react'
 import styles from './Card.module.scss'
+import AppContext from '../../context';
+
 
 const Card = ({
    id,
    title,
    price,
    onPlus,
-   added = false,
    loading = false }) => {
+      
+   const { isItemAdded } = React.useContext(AppContext);
 
-   const [isAdded, setIsAdded] = useState(added)
-
+   
    const onClickPlus = () => {
       onPlus({ id, title, price })
-      setIsAdded(!isAdded)
+     
    }
-
+   
    return (
       <div className={styles.card}>
          {loading ? 
@@ -41,7 +43,7 @@ const Card = ({
                <b>{price}руб</b>
                <img alt='plus'
                   onClick={onClickPlus}
-                  src={isAdded ? '/img/close-sm.svg' : '/img/add-plus.svg'}
+                  src={isItemAdded(id)? '/img/close-sm.svg' : '/img/add-plus.svg'}
                />
             </div>
          </>}
