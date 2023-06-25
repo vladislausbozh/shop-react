@@ -1,6 +1,19 @@
 import styles from './Drawer.module.scss'
+import Info from '../Info';
+import React from 'react';
+import AppContext from "../../context";
+
 
 const Drawer = ({ onClose, onRemove, items = [] }) => {
+  const [isOrederComplete, setIsOrederComplete] = React.useState(false)
+  const { cartItems, setCartItems} = React.useContext(AppContext)
+  const sum = (cartItems.reduce((sum,obj)=>Number(obj.price) + sum,0))
+  
+  const onClickOrder = () => {
+    setIsOrederComplete(true)
+    setCartItems([])
+    
+  }
   return (
     <div className={styles.overlay}  >
       <div className={styles.drawer}>
@@ -28,20 +41,18 @@ const Drawer = ({ onClose, onRemove, items = [] }) => {
                 <li>
                   <span>Итого</span>
                   <div></div>
-                  <b>285,00 руб</b>
+                  <b>{sum} руб</b>
                 </li>
               </ul>
-              <button>Заказать</button>
+              <button onClick={onClickOrder}>Заказать</button>
             </div>
           </div>
           : 
-          <div className={styles.cartEmpty}>
-            <img width={200} height={200} src='/img/box.png' alt='box' />
-            <h3>Не жмоться добавь чай</h3>
-            <button onClick={onClose}>
-              К покупкам
-            </button>
-          </div>}
+          <Info 
+            descriotion = {isOrederComplete ? 'заказ передан в службу доставки ' : 'Не жмоться добавь чай'} 
+            image={isOrederComplete ? '/img/free-icon-box.png' : '/img/box.png'} 
+          />
+        }
 
 
 

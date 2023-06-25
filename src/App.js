@@ -14,6 +14,7 @@ function App() {
   const [cartOpened, setCartOpened] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
+  
   useEffect(() => {
     async function fetchData() {
       const cartResponse = await axios.get('https://64849cf8ee799e321626dcfe.mockapi.io/cart')
@@ -28,15 +29,27 @@ function App() {
     fetchData()
   }, [])
 
-  const onAddToCart = (obj) => {
+ 
+  const onAddToCart = async (obj) => {
     try {
-      if (cartItems.find(item => item.id === obj.id)) {
-        axios.delete(`https://64849cf8ee799e321626dcfe.mockapi.io/cart/${obj.id}`)
-        setCartItems(prev => prev.filter(item => item.id !== obj.id))
+      const findItem = cartItems.find(item => item.perentId === obj.id)
+      if (findItem) {
+        setCartItems(prev => prev.filter(item => item.perentId !== obj.id))
+        await axios.delete(`https://64849cf8ee799e321626dcfe.mockapi.io/cart/${findItem.id}`)
+        
 
       } else {
-        axios.post('https://64849cf8ee799e321626dcfe.mockapi.io/cart', obj)
         setCartItems(prev => [...prev, obj])
+        const { data } = await axios.post('https://64849cf8ee799e321626dcfe.mockapi.io/cart', obj)
+        setCartItems(prev =>prev.map(item=>{
+          if(item.perentId===data.perentId){
+            return{
+              ...item,
+              id: data.id
+            }
+          }
+          return item
+        }) )
       }
     } catch (error) {
       console.log()
@@ -53,12 +66,12 @@ function App() {
   }
 
   const isItemAdded = (id) => {
-    return cartItems.some((obj) =>obj.id ===id);
+    return cartItems.some((obj) =>obj.perentId ===id);
   };
 
 
   return (
-    <AppContext.Provider value={{items,cartItems,isItemAdded}}>
+    <AppContext.Provider value={{items,cartItems,setCartItems,isItemAdded,setCartOpened}}>
       <div className="wrapper">
         {cartOpened && <Drawer
           items={cartItems}

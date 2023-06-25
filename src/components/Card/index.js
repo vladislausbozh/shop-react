@@ -15,7 +15,7 @@ const Card = ({
 
    
    const onClickPlus = () => {
-      onPlus({ id, title, price })
+      onPlus({ id,perentId: id, title, price })
      
    }
    
